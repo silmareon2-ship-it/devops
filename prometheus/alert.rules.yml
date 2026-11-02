@@ -1,0 +1,42 @@
+groups:
+        - name: example 
+          rules:
+            - alert: high load
+              expr: node_load1 > 4
+              for: 1m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Высокая загрузка CPU"
+
+            - alert: low Disk
+              expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.1
+              for: 1m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Мало места на диске"
+
+            - alert: Low ram
+              expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
+              for: 1m
+              labels:
+                severity: warning
+              annotations:
+                summary: "{{$labels.instance }} Мало ОЗУ"
+
+            - alert: BM off
+              expr: up == 0
+              for: 1m
+              labels:
+                severity: warning
+              annotations:
+                summary: "{{ $labels.instance }} BM не работает"
+
+            - alert: OpenVPN off
+              expr: node_systemd_unit_state {name="openvpn-server@server.service", state="active"} == 0
+              for: 1m
+              labels:
+                severity: warning
+              annotations:
+                summary: "{{$labels.instance }} OpenVPN не работает"

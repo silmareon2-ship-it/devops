@@ -1,0 +1,2 @@
+sudo apt update
+sudo apt install prometheus prometheus-node-exporter prometheus-alertmanager prometheus-nginx-exporter
